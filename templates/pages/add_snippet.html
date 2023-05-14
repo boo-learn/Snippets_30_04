@@ -68,25 +68,9 @@
             <div class="col">
                 <form action="{% url 'snippet-create' %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <input type="text" name="name" class="form-control form-control-lg" placeholder="Название сниппета">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <select class="form-control" name="lang">
-                                <option>Python</option>
-                                <option>C++</option>
-                                <option>JavaScript</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <textarea name="code" cols="96" rows="10" placeholder="Код сниппета"></textarea>
-                        </div>
-                    </div>
+                    <table>
+                        {{ form.as_table }}
+                    </table>
                     <div class="form-group row">
                         <div class="col-8">
                             <input type="submit" class="btn btn-primary btn-block" value="Сохранить">
