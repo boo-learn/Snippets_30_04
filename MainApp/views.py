@@ -13,6 +13,20 @@ def add_snippet_page(request):
     return render(request, 'pages/add_snippet.html', context)
 
 
+# Получаем данные формы --> Создаем Сниппет
+def snippet_create(request):
+    if request.method == "POST":
+        form_data = request.POST
+        # print(f"{form_data=}")
+        snippet = Snippet(
+            name=form_data['name'],
+            lang=form_data['lang'],
+            code=form_data['code'],
+        )
+        snippet.save()
+        return redirect('snippets-list')
+
+
 def snippets_page(request):
     snippets = Snippet.objects.all()
     context = {
