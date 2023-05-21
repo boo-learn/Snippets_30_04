@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from MainApp.models import Snippet
-from MainApp.forms import SnippetForm
+from MainApp.forms import SnippetForm, UserRegistrationForm
 
 
 def index_page(request):
@@ -10,18 +10,15 @@ def index_page(request):
     return render(request, 'pages/index.html', context)
 
 
-def add_snippet_page(request):
-    form = SnippetForm()
-    context = {
-        'form': form,
-        'pagename': 'Добавление нового сниппета'
-    }
-    return render(request, 'pages/add_snippet.html', context)
-
-
-# Получаем данные формы --> Создаем Сниппет
-def snippet_create(request):
-    if request.method == "POST":
+def add_snippet(request):
+    if request.method == "GET":  # получить страницу с формой
+        form = SnippetForm()
+        context = {
+            'form': form,
+            'pagename': 'Добавление нового сниппета'
+        }
+        return render(request, 'pages/add_snippet.html', context)
+    elif request.method == "POST":  # получить данные от формы
         form = SnippetForm(request.POST)
         if form.is_valid():
             snippet = form.save(commit=False)
@@ -70,3 +67,18 @@ def login_page(request):
 def logout_page(request):
     auth.logout(request)
     return redirect('home')
+
+
+def registration(request):
+    if request.method == "GET":
+        form = UserRegistrationForm()
+        context = {
+            'pagename': 'Регистрация',
+            "form": form
+        }
+        return render(request, 'pages/registration.html', context)
+    elif request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('home')
