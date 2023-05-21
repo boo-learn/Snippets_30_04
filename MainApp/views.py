@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from MainApp.models import Snippet
@@ -32,6 +33,16 @@ def snippets_page(request):
     context = {
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets
+    }
+    return render(request, 'pages/view_snippets.html', context)
+
+
+@login_required
+def snippets_my(request):
+    my_snippets = Snippet.objects.filter(user=request.user)
+    context = {
+        'pagename': 'Мои сниппеты',
+        "snippets": my_snippets
     }
     return render(request, 'pages/view_snippets.html', context)
 
