@@ -50,3 +50,9 @@ def snippet_detail(request, snippet_id):
         "snippet": snippet
     }
     return render(request, 'pages/snippet-detail.html', context)
+
+
+def snippet_delete(requests, snippet_id):
+    snippet = Snippet.objects.get(id=snippet_id)
+    snippet.delete()
+    return redirect('snippets-list')
