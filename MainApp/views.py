@@ -22,16 +22,11 @@ def add_snippet_page(request):
 # Получаем данные формы --> Создаем Сниппет
 def snippet_create(request):
     if request.method == "POST":
-        # form_data = request.POST
-        # snippet = Snippet(
-        #     name=form_data['name'],
-        #     lang=form_data['lang'],
-        #     code=form_data['code'],
-        # )
-        # snippet.save()
         form = SnippetForm(request.POST)
         if form.is_valid():
-            form.save()
+            snippet = form.save(commit=False)
+            snippet.user = request.user
+            snippet.save()
         return redirect('snippets-list')
 
 
@@ -63,8 +58,6 @@ def login_page(request):
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
-        # print("username =", username)
-        # print("password =", password)
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)

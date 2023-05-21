@@ -80,6 +80,7 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Название</th>
+                        <th scope="col">Автор</th>
                         <th scope="col">Дата создания</th>
                     </tr>
                     </thead>
@@ -93,6 +94,7 @@
                                     <i style="color: red" class="fa-sharp fa-solid fa-trash"></i>
                                 </a>
                             </td>
+                            <td>{{ snippet.user.username }}</td>
                             <td>{{ snippet.creation_date }}</td>
                         </tr>
                     {% endfor %}
