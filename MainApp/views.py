@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.shortcuts import render, redirect
+from django.contrib import auth
 from MainApp.models import Snippet
 from MainApp.forms import SnippetForm
 
@@ -56,3 +57,23 @@ def snippet_delete(requests, snippet_id):
     snippet = Snippet.objects.get(id=snippet_id)
     snippet.delete()
     return redirect('snippets-list')
+
+
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        # print("username =", username)
+        # print("password =", password)
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+        else:
+            # Return error message
+            pass
+    return redirect('home')
+
+
+def logout_page(request):
+    auth.logout(request)
+    return redirect('home')
