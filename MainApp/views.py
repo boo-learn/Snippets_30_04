@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from MainApp.models import Snippet
@@ -58,6 +59,8 @@ def snippet_detail(request, snippet_id):
 
 def snippet_delete(requests, snippet_id):
     snippet = Snippet.objects.get(id=snippet_id)
+    if snippet.user != requests.user:
+        raise PermissionDenied()
     snippet.delete()
     return redirect('snippets-list')
 
