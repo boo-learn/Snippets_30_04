@@ -1,6 +1,6 @@
 from django.forms import ModelForm, CharField, PasswordInput
 from django.core.exceptions import ValidationError
-from MainApp.models import Snippet
+from MainApp.models import Snippet, Comment
 from django.contrib.auth.models import User
 
 
@@ -32,3 +32,9 @@ class UserRegistrationForm(ModelForm):
         if commit:
             user.save()
         return user
+
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']

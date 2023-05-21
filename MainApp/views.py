@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.contrib import auth
 from MainApp.models import Snippet
-from MainApp.forms import SnippetForm, UserRegistrationForm
+from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
 
 
 def index_page(request):
@@ -31,6 +31,7 @@ def add_snippet(request):
 
 def snippets_page(request):
     snippets = Snippet.objects.all()
+
     context = {
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets
@@ -50,9 +51,11 @@ def snippets_my(request):
 
 def snippet_detail(request, snippet_id):
     snippet = Snippet.objects.get(id=snippet_id)
+    comment_form = CommentForm()
     context = {
         'pagename': 'Информация о сниппете',
-        "snippet": snippet
+        "snippet": snippet,
+        "comment_form": comment_form
     }
     return render(request, 'pages/snippet-detail.html', context)
 
@@ -102,3 +105,16 @@ def registration(request):
             }
             return render(request, 'pages/registration.html', context)
         return redirect('home')
+
+
+def comment_create(request):
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        snippet_id = request.POST.get("snippet_id")
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            snippet = Snippet.objects.get(id=snippet_id)
+            comment.snippet = snippet
+            comment.save()
+        return redirect(request.META.get('HTTP_REFERER', '/'))

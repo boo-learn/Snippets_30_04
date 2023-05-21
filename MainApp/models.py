@@ -1,12 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 LANGS = (
     ('py', 'Python'),
     ('js', 'JavaScript'),
     ('cpp', 'C++'),
 )
+
+
+class Comment(models.Model):
+    text = models.TextField(max_length=1000)
+    creation_date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    snippet = models.ForeignKey(to='Snippet', on_delete=models.CASCADE, related_name='comments')
 
 
 class Snippet(models.Model):

@@ -33,5 +33,32 @@
                 </fieldset>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <table border="1">
+                    <tr>
+                        <th>Автор</th>
+                        <th>Текст</th>
+                    </tr>
+                    {% for comment in snippet.comments.all %}
+                        <tr>
+                            <td>{{ comment.author }}</td>
+                            <td>{{ comment.text }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form action="{% url 'comment-create' %}" method="post">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <input name="snippet_id" type="hidden" value="{{ snippet.id }}">
+                    <br>
+                    <button type="submit">Комментировать</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
