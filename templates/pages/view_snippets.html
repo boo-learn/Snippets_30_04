@@ -72,7 +72,20 @@
                 <hr>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col">
+                <form action="" method="get">
+                    <select name="lang">
+                        <option value="">----</option>
+                        <option value="py" {% if lang == "py" %} selected {% endif %}>Python</option>
+                        <option value="js" {% if lang == "js" %} selected {% endif %}>JavaScript</option>
+                        <option value="cpp" {% if lang == "cpp" %} selected {% endif %}>C++</option>
+                    </select>
+                    <button type="submit">Применить</button>
+                    <a href="">Сбросить</a>
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <table class="table table-striped">
@@ -90,6 +103,7 @@
                                 <a href="?sort=name">Название</a>
                             {% endif %}
                         </th>
+                        <th scope="col">Язык</th>
                         <th scope="col">Автор</th>
                         <th scope="col">Дата создания</th>
                         <th scope="col">Доступ</th>
@@ -107,6 +121,7 @@
                                     </a>
                                 {% endif %}
                             </td>
+                            <td>{{ snippet.lang }}</td>
                             <td>{{ snippet.user.username }}</td>
                             <td>{{ snippet.creation_date }}</td>
                             <td>
