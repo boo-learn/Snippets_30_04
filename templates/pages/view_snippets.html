@@ -79,7 +79,17 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Название</th>
+                        <th scope="col">
+                            {% if sort == "name" %}
+                                <a href="?sort=-name">Название</a>
+                                <i class="fa-solid fa-caret-up"></i>
+                            {% elif sort == "-name" %}
+                                <a href="?sort=name">Название</a>
+                                <i class="fa-solid fa-caret-down"></i>
+                            {% else %}
+                                <a href="?sort=name">Название</a>
+                            {% endif %}
+                        </th>
                         <th scope="col">Автор</th>
                         <th scope="col">Дата создания</th>
                         <th scope="col">Доступ</th>
