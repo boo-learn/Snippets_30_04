@@ -23,7 +23,7 @@ class Snippet(models.Model):
     lang = models.ForeignKey(to=Language, on_delete=models.PROTECT, null=True)
     code = models.TextField(max_length=5000)
     creation_date = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE,
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, related_name="snippets",
                              blank=True, null=True)
     private = models.BooleanField(default=True)
 

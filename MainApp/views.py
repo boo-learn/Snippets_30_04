@@ -1,5 +1,7 @@
 from django.http import Http404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Count
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect
 from django.contrib import auth
@@ -38,11 +40,13 @@ def snippets_page(request):
         snippets = snippets.order_by(sort)
     if lang:
         snippets = snippets.filter(lang=lang)
+    users = User.objects.annotate(num_snippets=Count('snippets')).exclude(num_snippets=0)
     context = {
         'pagename': 'Просмотр сниппетов',
         "snippets": snippets,
         "sort": sort,
         "lang": lang,
+        "users": users
     }
     return render(request, 'pages/view_snippets.html', context)
 
