@@ -28,3 +28,6 @@ class Snippet(models.Model):
 
     def __repr__(self):
         return f"Snippet {self.name} | {self.user}"
+
+    def __str__(self):
+        return self.__repr__()
